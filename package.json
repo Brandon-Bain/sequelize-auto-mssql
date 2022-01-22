@@ -1,6 +1,6 @@
 {
-  "name": "sequelize-auto",
-  "version": "0.8.7",
+  "name": "sequelize-auto-mssql",
+  "version": "1.0.0",
   "publishConfig": {
     "tag": "latest"
   },
@@ -29,10 +29,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sequelize/sequelize-auto.git"
+    "url": "https://github.com/Brandon-Bain/sequelize-auto-mssql.git"
   },
   "bugs": {
-    "url": "https://github.com/sequelize/sequelize-auto/issues"
+    "url": "https://github.com/Brandon-Bain/sequelize-auto-mssql/issues"
   },
   "nyc": {
     "exclude": [
@@ -55,10 +55,8 @@
   "engines": {
     "node": ">= 10"
   },
-  "author": "Steve Schmitt (https://github.com/steveschmitt)",
+  "author": "Brandon Bain (https://github.com/Brandon-Bain)",
   "contributors": [
-    "Daniel Durante <me@danieldurante.com>",
-    "Yuping Zuo (https://github.com/zypA13510)"
   ],
   "license": "MIT",
   "dependencies": {
