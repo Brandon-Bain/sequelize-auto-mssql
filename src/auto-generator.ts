@@ -486,7 +486,7 @@ export class AutoGenerator {
     if (type === "boolean" || type === "bit(1)" || type === "bit" || type === "tinyint(1)") {
       val = 'DataTypes.BOOLEAN';
 
-    // postgres range types
+      // postgres range types
     } else if (type === "numrange") {
       val = 'DataTypes.RANGE(DataTypes.DECIMAL)';
     } else if (type === "int4range") {
@@ -508,7 +508,7 @@ export class AutoGenerator {
         val += '.ZEROFILL';
       }
     } else if (type === 'nvarchar(max)' || type === 'varchar(max)') {
-        val = 'DataTypes.TEXT';
+      val = 'DataTypes.TEXT';
     } else if (type.match(/n?varchar|string|varying/)) {
       val = 'DataTypes.STRING' + (!_.isNull(length) ? length : '');
     } else if (type.match(/^n?char/)) {
@@ -695,7 +695,7 @@ export class AutoGenerator {
     const notNull = isInterface ? '' : '!';
     let str = '';
     fields.forEach(field => {
-      if (!this.options.skipFields || !this.options.skipFields.includes(field)){
+      if (!this.options.skipFields || !this.options.skipFields.includes(field)) {
         const name = this.quoteName(recase(this.options.caseProp, field));
         const isOptional = this.getTypeScriptFieldOptional(table, field);
         str += `${sp}${name}${isOptional ? '?' : notNull}: ${this.getTypeScriptType(table, field)};\n`;
@@ -736,6 +736,8 @@ export class AutoGenerator {
       jsType = values.join(' | ');
     } else if (this.isJSON(fieldType)) {
       jsType = 'object';
+    } else if (this.isBlob(fieldType)) {
+      jsType = 'Blob'
     } else {
       console.log(`Missing TypeScript type: ${fieldType || fieldObj['type']}`);
       jsType = 'any';
@@ -820,5 +822,9 @@ export class AutoGenerator {
 
   private isJSON(fieldType: string): boolean {
     return /^(json|jsonb)/.test(fieldType);
+  }
+
+  private isBlob(fieldType: string): boolean {
+    return /^(image|blob)/.test(fieldType);
   }
 }
