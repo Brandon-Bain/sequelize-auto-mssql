@@ -760,8 +760,8 @@ export class AutoGenerator {
     if (additional.timestamps === false) {
       return false;
     }
-    return ((!additional.createdAt && recase('c', field) === 'createdAt') || additional.createdAt === field)
-      || ((!additional.updatedAt && recase('c', field) === 'updatedAt') || additional.updatedAt === field);
+    return ((!additional.createdAt && (recase('c', field) === 'createdAt') || field.includes('add_date')) || additional.createdAt === field)
+      || ((!additional.updatedAt && (recase('c', field) === 'updatedAt') || field.includes('modified_date')) || additional.updatedAt === field);
   }
 
   private isParanoidField(field: string) {
