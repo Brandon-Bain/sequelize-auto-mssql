@@ -805,7 +805,7 @@ export class AutoGenerator {
   }
 
   private isDate(fieldType: string): boolean {
-    return /^(datetime|timestamp)/.test(fieldType);
+    return /^(datetime|timestamp|smalldatetime)/.test(fieldType);
   }
 
   private isString(fieldType: string): boolean {
