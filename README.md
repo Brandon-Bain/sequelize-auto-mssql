@@ -1,14 +1,17 @@
-# Sequelize-Auto
+# Sequelize-Auto-MSSql
+## This is a fork of [Sequelize-Auto](https://github.com/sequelize/sequelize-auto)
 
 <!-- [![Greenkeeper badge](https://badges.greenkeeper.io/sequelize/sequelize-auto.svg)](https://greenkeeper.io/) -->
-
-[![Build Status](http://img.shields.io/travis/sequelize/sequelize-auto/master.svg)](https://travis-ci.org/sequelize/sequelize-auto) [![Build status](https://ci.appveyor.com/api/projects/status/bf9lb89rmpj6iveb?svg=true)](https://ci.appveyor.com/project/durango/sequelize-auto) [![Code Climate](https://codeclimate.com/github/sequelize/sequelize-auto/badges/gpa.svg)](https://codeclimate.com/github/sequelize/sequelize-auto) [![Test Coverage](https://codeclimate.com/github/sequelize/sequelize-auto/badges/coverage.svg)](https://codeclimate.com/github/sequelize/sequelize-auto/coverage)
+<!-- [![Build Status](http://img.shields.io/travis/sequelize/sequelize-auto/master.svg)](https://travis-ci.org/sequelize/sequelize-auto)  -->
+<!-- [![Build status](https://ci.appveyor.com/api/projects/status/bf9lb89rmpj6iveb?svg=true)](https://ci.appveyor.com/project/durango/sequelize-auto)  -->
+<!-- [![Code Climate](https://codeclimate.com/github/sequelize/sequelize-auto/badges/gpa.svg)](https://codeclimate.com/github/sequelize/sequelize-auto)  -->
+<!-- [![Test Coverage](https://codeclimate.com/github/sequelize/sequelize-auto/badges/coverage.svg)](https://codeclimate.com/github/sequelize/sequelize-auto/coverage) -->
 
 Automatically generate models for [SequelizeJS](https://github.com/sequelize/sequelize) via the command line.
 
 ## Install
 
-    npm install sequelize-auto
+    npm install sequelize-auto-mssql
 
 ## Differences from sequelize-auto
 
@@ -21,7 +24,7 @@ This package adds a few datatype additions to accommodate MSSQL
 
 ## Prerequisites
 
-You will need to install `sequelize`; it's no longer installed by `sequelize-auto`.
+You will need to install `sequelize`; it's no longer installed by `sequelize-auto-mssql`.
 
 You will need to install the correct dialect binding before using sequelize-auto.
 
