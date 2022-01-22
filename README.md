@@ -10,6 +10,15 @@ Automatically generate models for [SequelizeJS](https://github.com/sequelize/seq
 
     npm install sequelize-auto
 
+## Differences from sequelize-auto
+
+This package adds a few datatype additions to accommodate MSSQL
+  MSSQL Datatype | Sequelize Datatype | Typescript Datatype
+  --- | --- | ---
+  image | Blob | Blob
+  blob | Blob | Blob
+  smalldatetime | DATE | Date
+
 ## Prerequisites
 
 You will need to install `sequelize`; it's no longer installed by `sequelize-auto`.
