@@ -176,7 +176,7 @@ export class AutoGenerator {
     // add all the fields
     let str = '';
     const fields = _.keys(this.tables[table]);
-    fields.forEach((field, index) => {
+    fields.forEach((field) => {
       timestamps ||= this.isTimestampField(field);
       paranoid ||= this.isParanoidField(field);
       updatedAt = (!updatedAt && this.getIsUpdatedAtField(field)) ? field : updatedAt;
@@ -215,8 +215,10 @@ export class AutoGenerator {
     str += space[2] + "timestamps: " + timestamps + ",\n";
 
     if (timestamps) {
-      str += space[2] + "updatedAt: " + updatedAt + ",\n";
-      str += space[2] | "createdAt: " + createdAt + ",\n";
+      const updatedVal = updatedAt.length ? `'${updatedAt}'` : updatedAt;
+      const createdVal = createdAt.length ? `'${createdAt}'` : createdAt;
+      str += space[2] + "updatedAt: " + updatedVal + ",\n";
+      str += space[2] + "createdAt: " + createdVal + ",\n";
     }
 
     if (paranoid) {
@@ -598,16 +600,22 @@ export class AutoGenerator {
     });
   }
 
-  private getIsUpdatedAtField(field: string) {
-    return this.options.updatedAt.some(searchString => {
-      return field.includes(searchString);
-    });
+  private getIsUpdatedAtField(field: string): boolean {
+    if (this.options.updatedAt) {
+      return this.options.updatedAt.some(searchString => {
+        return field.includes(searchString);
+      });
+    };
+    return false;
   }
 
   private getIsCreatedAtField(field: string): boolean {
-    return this.options.createdAt.some(searchString => {
-      return field.includes(searchString);
-    });
+    if (this.options.createdAt) {
+      return this.options.createdAt.some(searchString => {
+        return field.includes(searchString);
+      });
+    }
+    return false;
   }
 
   private getTypeScriptCreationOptionalFields(table: string): Array<string> {
@@ -615,7 +623,7 @@ export class AutoGenerator {
     return fields.filter((field): boolean => {
       const fieldObj = this.tables[table][field];
       return fieldObj.allowNull || (!!fieldObj.defaultValue || fieldObj.defaultValue === "") || fieldObj.autoIncrement
-        || this.isTimestampField(field) || this.isCustomTimestampField(field);
+        || this.isTimestampField(field);
     });
   }
 
@@ -795,7 +803,9 @@ export class AutoGenerator {
       return false;
     }
     return (!additional.createdAt && (recase('c', field) === 'createdAt') || additional.createdAt === field)
-      || (!additional.updatedAt && (recase('c', field) === 'updatedAt') || additional.updatedAt === field);
+      || (!additional.updatedAt && (recase('c', field) === 'updatedAt') || additional.updatedAt === field)
+      || (!additional.createdAt && this.getIsCreatedAtField(field))
+      || (!additional.updatedAt && this.getIsUpdatedAtField(field))
   }
 
   private isParanoidField(field: string) {

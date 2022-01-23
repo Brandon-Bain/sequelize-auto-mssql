@@ -56,8 +56,7 @@
     "node": ">= 10"
   },
   "author": "Brandon Bain (https://github.com/Brandon-Bain)",
-  "contributors": [
-  ],
+  "contributors": [],
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.21",
