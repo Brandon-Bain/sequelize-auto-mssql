@@ -185,6 +185,10 @@ export interface AutoOptions {
   pkSuffixes?: string[];
   /** Use `sequelize.define` instead of `init` for model initialization.  See issues #527, #559, #573 */
   useDefine: boolean;
+  /** Column containing text will be set as the model createdAt value */
+  createdAt: string[];
+  /** Column containing text will be set as the model updatedAt value */
+  updatedAt: string[];
 }
 
 export type TSField = { special: string[]; elementType: string; } & ColumnDescription;

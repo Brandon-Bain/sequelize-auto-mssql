@@ -25,6 +25,8 @@ export class AutoGenerator {
     singularize: boolean;
     useDefine: boolean;
     noIndexes?: boolean;
+    createdAt?: string[];
+    updatedAt?: string[];
   };
 
   constructor(tableData: TableData, dialect: DialectOptions, options: AutoOptions) {
@@ -167,6 +169,9 @@ export class AutoGenerator {
     const space = this.space;
     let timestamps = (this.options.additional && this.options.additional.timestamps === true) || false;
     let paranoid = (this.options.additional && this.options.additional.paranoid === true) || false;
+    let updatedAt = this.options.additional?.updatedAt || '';
+    let createdAt = this.options.additional?.createdAt || '';
+
 
     // add all the fields
     let str = '';
@@ -174,9 +179,20 @@ export class AutoGenerator {
     fields.forEach((field, index) => {
       timestamps ||= this.isTimestampField(field);
       paranoid ||= this.isParanoidField(field);
+      updatedAt = (!updatedAt && this.getIsUpdatedAtField(field)) ? field : updatedAt;
+      createdAt = (!createdAt && this.getIsCreatedAtField(field)) ? field : createdAt;
 
       str += this.addField(table, field);
     });
+
+    // set updatedAt and/or createdAt to boolean false if they are empty strings
+    if (updatedAt === '') {
+      updatedAt = false;
+    }
+
+    if (createdAt === '') {
+      createdAt = false;
+    }
 
     // trim off last ",\n"
     str = str.substring(0, str.length - 2) + "\n";
@@ -197,6 +213,12 @@ export class AutoGenerator {
     }
 
     str += space[2] + "timestamps: " + timestamps + ",\n";
+
+    if (timestamps) {
+      str += space[2] + "updatedAt: " + updatedAt + ",\n";
+      str += space[2] | "createdAt: " + createdAt + ",\n";
+    }
+
     if (paranoid) {
       str += space[2] + "paranoid: true,\n";
     }
@@ -576,12 +598,24 @@ export class AutoGenerator {
     });
   }
 
+  private getIsUpdatedAtField(field: string) {
+    return this.options.updatedAt.some(searchString => {
+      return field.includes(searchString);
+    });
+  }
+
+  private getIsCreatedAtField(field: string): boolean {
+    return this.options.createdAt.some(searchString => {
+      return field.includes(searchString);
+    });
+  }
+
   private getTypeScriptCreationOptionalFields(table: string): Array<string> {
     const fields = _.keys(this.tables[table]);
     return fields.filter((field): boolean => {
       const fieldObj = this.tables[table][field];
       return fieldObj.allowNull || (!!fieldObj.defaultValue || fieldObj.defaultValue === "") || fieldObj.autoIncrement
-        || this.isTimestampField(field);
+        || this.isTimestampField(field) || this.isCustomTimestampField(field);
     });
   }
 
@@ -760,8 +794,8 @@ export class AutoGenerator {
     if (additional.timestamps === false) {
       return false;
     }
-    return ((!additional.createdAt && (recase('c', field) === 'createdAt') || field.includes('add_date')) || additional.createdAt === field)
-      || ((!additional.updatedAt && (recase('c', field) === 'updatedAt') || field.includes('modified_date')) || additional.updatedAt === field);
+    return (!additional.createdAt && (recase('c', field) === 'createdAt') || additional.createdAt === field)
+      || (!additional.updatedAt && (recase('c', field) === 'updatedAt') || additional.updatedAt === field);
   }
 
   private isParanoidField(field: string) {
