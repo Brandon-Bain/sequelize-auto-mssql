@@ -1,6 +1,6 @@
 {
   "name": "sequelize-auto-mssql",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "tag": "latest"
   },
@@ -56,7 +56,8 @@
     "node": ">= 10"
   },
   "author": "Brandon Bain (https://github.com/Brandon-Bain)",
-  "contributors": [],
+  "contributors": [
+  ],
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.21",
